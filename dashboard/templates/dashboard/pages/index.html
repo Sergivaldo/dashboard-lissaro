@@ -18,9 +18,16 @@
             </div>
             <div class="dashboard__col2">
                 <div class="paylists-container">
-                    <h4>Atrasados</h4>
+                    <h4>Pagamentos atrasados</h4>
                     <div class="paylists">
-
+                        {% for payment in payment_bills_late %}
+                            {% include 'dashboard/partials/list-item.html' %}
+                        {% empty %}
+                            <div class="empty">
+                                <i class="fa-solid fa-check"></i>
+                                <p>Não há pagamentos</p>
+                            </div>
+                        {% endfor %}
                     </div>
                     
                 </div>

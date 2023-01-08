@@ -1,3 +1,4 @@
+import locale
 from datetime import datetime
 
 import pytz
@@ -30,17 +31,29 @@ class Api:
     def __get_pendent_bills(self, url, endpoint):
         data = self.__fetch_api(url, endpoint)
         pendent_bills = list()
+
         for bill in data:
             if bill[self.obj_item_name]['situacao'] == 'aberto' or bill[
                     self.obj_item_name]['situacao'] == 'parcial':
 
                 bill[self.obj_item_name]['atrasado'] = self.__is_late_bill(
                     bill)
+
+                bill[self.obj_item_name]['data_formatada'] = self.__format_date(
+                    bill)
+
                 pendent_bills.append(bill)
 
         return pendent_bills
 
+    def __format_date(self, bill):
+        formated_date = str(
+            bill[self.obj_item_name]['vencimento']).split('-')
+        formated_date.reverse()
+        formated_date = '/'.join(formated_date)
+        return formated_date
     # Compara se a data de vencimento da conta é maior, menor ou igual.
+
     def __compare_dates(self, bill) -> int:
         current_date = datetime.now(pytz.timezone('America/Bahia')).date()
         due_date_bill = datetime.strptime(
@@ -82,7 +95,13 @@ class Api:
         else:
             return 'contaReceber'
 
+    def __format_value(self, value):
+        locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+        value = locale.currency(value, grouping=True, symbol=None)
+
+        return value
     # Pega todas as contas referente ao dia atual
+
     def get_bills_today(self):
         bills_today = list()
         for bill in self.data:
@@ -107,7 +126,7 @@ class Api:
             if self.__compare_dates(bill) == 0:
                 total_value += float(bill[self.obj_item_name]['valor'])
 
-        return total_value
+        return self.__format_value(total_value)
 
     # Pega o valor total referente ao mês
     def get_total_value_rest(self):
@@ -117,7 +136,7 @@ class Api:
                     and self.__compare_months(bill) == 0):
                 total_value += float(bill[self.obj_item_name]['valor'])
 
-        return total_value
+        return self.__format_value(total_value)
 
     # Pega o valor total de todas as contas atrasadas
     def get_total_value_late(self):
@@ -126,7 +145,7 @@ class Api:
             if bill[self.obj_item_name]['atrasado'] == 'true':
                 total_value += float(bill[self.obj_item_name]['valor'])
 
-        return total_value
+        return self.__format_value(total_value)
 
     def get_late_bills(self):
         late_bills = list()
@@ -145,11 +164,11 @@ class Api:
     def printData(self):
         print(self.data)
 
+
 BASE_API_URL = "https://bling.com.br/b/Api/v2/"
 PAYMENT_ENDPOINT = "contaspagar"
 RECEIVEMET_ENDPOINT = "contasreceber"
 API_KEY = "9f8434c5983423bbed5130d60e42b3aabd01017f26041e01af4341545646db337fd2a73f"
-
-a = Api(BASE_API_URL, PAYMENT_ENDPOINT, API_KEY)
-
-print(a.get_late_bills())
+payments = Api(base_url=BASE_API_URL,
+               endpoint=PAYMENT_ENDPOINT, apikey=API_KEY)
+payments.printData
