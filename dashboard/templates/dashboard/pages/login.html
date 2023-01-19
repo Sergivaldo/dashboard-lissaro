@@ -1,0 +1,28 @@
+{% extends 'dashboard/pages/base.html' %}
+{% block title %}Dashboard | Login{% endblock title %}
+{% block content %}
+    <div class="login">
+        <div class="login-content">
+            <p>Informe o usuário e senha</p>
+            <form id="login_form" autocomplete="off" method="POST" action="{% url 'dashboard:check' %}">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="input-container">
+                        <label for="{{field.id_for_label}}">{{field.label}}</label>
+                        {{field}}
+                    </div>
+                {% endfor %}
+                <button id="login_btt" type="submit">Entrar</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+{% block flashs %}
+    {% if messages %}
+    <ul class="login-messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endblock flashs %}

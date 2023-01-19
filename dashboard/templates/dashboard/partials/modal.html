@@ -1,0 +1,26 @@
+<div id="modal">
+    <div id="content-modal">
+        <span>Informe os dados do Bling</span>
+       <form action="{% url 'dashboard:bling_register' %}" method="POST" autocomplete="off">
+        {% csrf_token %}
+            {% for field in form %}
+                <div class="input-container">
+                    {% if "Chave da API" in field.label%}
+                        <div>
+                            <label for="{{field.id_for_label}}">{{field.label}}</label>
+                            <a href="https://ajuda.bling.com.br/hc/pt-br/articles/360046937853-Introdu%C3%A7%C3%A3o-para-a-API-do-Bling-para-desenvolvedores-" target="blank"><i class="fa-regular fa-circle-question"></i></a>
+                        </div>
+                    {% else %}
+                        <label for="{{field.id_for_label}}">{{field.label}}</label>
+                        
+                    {% endif %}
+                    {{field}}
+                </div>
+            {% endfor %}
+            <div class="form-buttons">
+                <button id="cancel-btt" type="button">Cancelar</button>
+                <button id="save-btt" type="sumit">Salvar</button>
+            </div>
+       </form>
+    </div>
+</div>

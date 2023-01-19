@@ -41,15 +41,38 @@ header > div > span{
     letter-spacing: 1px;
 }
 
-.setting-icon{
+header > div > div > button, header > div > div > form > button{
+    background-color: transparent;
+}
+
+header > div > div > form > button{
+    margin-left: 12px;
     font-size: 16px;
+}
+
+header > div > div{
+    display: flex;
+    align-items: center;
+}
+
+header > div > div > span{
+    margin-right: 12px;
+    font-size: 12px;
+    color: #bdbcbc;
+}
+
+.fa-gear,.fa-rotate-right,.fa-right-from-bracket{
     color:rgb(253, 222, 249);
     cursor: pointer;
     transition: color .2s ease;
 }
+.fa-gear{
+    font-size: 16px;
+    margin-left: 32px;
+}
 
-.setting-icon:hover{
-    color:rgb(190, 166, 187);
+.fa-gear:hover,.fa-rotate-right:hover,.fa-right-from-bracket:hover{
+    color:rgb(155, 120, 150);
 }
 /*endRegion:header*/
 
@@ -59,7 +82,7 @@ header > div > span{
     grid-template-areas: "acc acc"
                         "payR payP"
                         "dF dF";
-    grid-template-rows: 0.6fr 1fr 1.5fr;
+    grid-template-rows: 0.6fr 1fr 1.4fr;
     column-gap: 10px;
     row-gap: 10px;
 }
@@ -74,8 +97,8 @@ header > div > span{
     grid-area: acc;
     padding: 24px 20px;
     display: flex;
-    gap: 24px;
     align-items: center;
+    justify-content: space-between;
     
 }
 
@@ -89,13 +112,74 @@ header > div > span{
 .acc-icon{
     font-size: 24px;
 }
-
-.content{
+.total-balance-container{
     display: flex;
-    flex-direction: column;
-    
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
 }
 
+.total-balance{
+    display: flex;
+    flex-direction: column;
+}
+.accounts{
+    position: relative;
+}
+.accounts > button{
+    padding: 6px;
+    background-color: transparent;
+    font-family: 'Inter', sans-serif;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.accounts > button:hover{
+    background-color: #297fb91f;
+
+}
+
+.accounts > button > span{
+    margin-left: 8px;
+}
+.accounts > button > span, i{
+    color: #d3d3d3;
+    font-size: 14px;
+}
+#list-accounts {
+    visibility: hidden;
+    min-height: fit-content;
+    max-height: 270px;
+    position: absolute;
+    top:40px;
+    right: 0;
+    padding: 15px;
+    background-color: #2d2e38;
+    border-radius: 10px;
+    overflow-y: scroll;
+}
+#list-accounts > li{
+    padding: 10px 5px;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    list-style: none;
+    font-size: 14px;
+    background-color: #363744;
+    color: #d3d3d3;
+    border-radius: 8px;
+}
+#list-accounts > li+li{
+    margin-top: 14px;
+}
+#list-accounts > li > strong{
+    display: block;
+    width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .title{
     color: #d3d3d3;
     font-weight: 300;
@@ -176,25 +260,11 @@ header > div > span{
 }
 /*endRegion:summary*/
 
-/*region:paylist*/
-.paylist{
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    font-size: 14px;
-    color: #636363;
-    margin-bottom: 10px;
-}
-
-.paylist > ul{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-/*endRegion:paylist*/
 
 /*region:paylist-item*/
 .list-item{
+    
+    margin: 5px 0px;
     padding: 10px 15px;
     display: flex;
     align-items: center;
@@ -209,10 +279,11 @@ header > div > span{
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 3px;
 }
 
 .list-item > div:nth-child(2) > strong{
+    width: 200px;
     display: inline-block;
     color: #f5f5f5;
     font-size: 14px;
@@ -236,7 +307,7 @@ header > div > span{
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 10px;
+    gap: 3px;
 }
 
 .list-item > div:nth-child(3) > strong{
@@ -250,7 +321,7 @@ header > div > span{
 .dashboard{
     padding: 0px 15px;
     padding-bottom: 15px;
-    height: calc(100% - 65px);
+    height: calc(100% - 80px);
     display: grid;
     grid-template-columns: 450px minmax(350px,450px);
     column-gap: 10px;
@@ -258,8 +329,8 @@ header > div > span{
 }
 
 .paylists-container{
-    height: 100%;
-    padding: 20px;
+    height: calc(100% - 15px);
+    padding: 10px 20px;
     background-color: #1F2029;
     box-shadow: 0px 4px 4px 4px rgba(0, 0, 0, 0.02);
     border-radius: 20px;
@@ -273,8 +344,8 @@ header > div > span{
 }
 
 .paylists{
-    max-height: 300px;
-    overflow-y: scroll;
+    max-height: 270px;
+    overflow: scroll;
 }
 
 ::-webkit-scrollbar{
@@ -289,6 +360,241 @@ header > div > span{
     
 }
 
+.empty{
+    
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+}
+
+.empty > p { 
+    color: #f5f5f5;
+}
+
+.empty > .fa-check{
+    font-size: 24px;
+    color: #70FFAC;
+}
 
 /*endRegion:dashboard*/
 
+#modal{
+    visibility: hidden;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 24px;
+    background-color: rgba(0,0,0,0.3);
+}
+
+#content-modal{
+    padding: 30px;
+    width: 230px;
+    height: fit-content;
+    background-color: #1F2029;
+    border-radius: 10px;
+    font-family: 'Open Sans',sans-serif;
+}
+
+#content-modal > span{
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+    margin-bottom: 24px;
+    font-size: 14px;
+    color: #979797;
+}
+
+#modal.active, #list-accounts.active{
+    visibility: visible;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.input-container{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.input-container > label, .input-container > div > label,.input-container > div > a{
+    font-size: 12px;
+    color: #d3d3d3;
+}
+
+.input-container > input{
+    padding: 0px 5px;
+    height: 25px;
+    border-radius: 4px;
+    background-color: #23242E;
+    color: #9b9b9b;
+    outline: none;
+}
+
+.input-container > input:focus{
+    outline: 1px solid #979797;
+}
+
+.form-buttons{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.form-buttons > button{
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: opacity .125s ease-in-out;
+}
+
+.form-buttons > button:hover{
+    opacity: 0.7;
+}
+
+.form-buttons > button:nth-child(1){
+    background-color: transparent;
+    border: 1px solid #979797;
+    color: #979797;
+    flex-grow: 1;
+}
+
+.form-buttons > button:nth-child(2){
+    background-color: #70FFAC;
+    border: 1px solid #70FFAC;
+    flex-grow: 2;
+}
+
+
+
+.login{
+    height: calc(100% - 75px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-content{
+    padding: 30px;
+    width: 250px;
+    border-radius: 10px;
+    background: #1F2029;
+}
+
+.login-content > p{
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 24px;
+    text-align: center;
+    color: #979797;
+}
+
+.login-content > form > button{
+    margin: 0 auto;
+    width: 100px;
+    padding: 5px;
+    background-color: #70FFAC;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: opacity .125s ease-in-out;
+}
+
+.login-content > form > button:hover{
+    opacity: 0.7;
+}
+
+.dashboard-messages{
+    position: absolute;
+    bottom: 0;
+}
+
+.login-messages{
+    margin: -100px auto;
+}
+
+.login-messages, .dashboard-messages{
+    width: 250px;
+    padding: 20px;
+    font-size: 12px;
+    text-align: center;
+    
+}
+
+.login-messages > li, .dashboard-messages > li{
+    padding: 10px;
+    
+    font-weight: 500;
+    list-style: none;
+    border-radius: 10px;
+}
+
+.message-success{
+    background-color: #70FFAC;
+    color: #002b13;
+}
+
+.message-error{
+    background-color: #FF998B;
+    color: #3d0800;
+}
+
+/* ----------------------------------------------
+ * Generated by Animista on 2023-1-16 22:1:17
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation rotate-center
+ * ----------------------------------------
+ */
+ /*region: animations*/
+.rotate-center {
+	-webkit-animation: rotate-center 2s linear infinite both;
+	        animation: rotate-center 2s linear infinite both;
+}
+
+ @-webkit-keyframes rotate-center {
+    0% {
+      -webkit-transform: rotate(0);
+              transform: rotate(0);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+              transform: rotate(360deg);
+    }
+  }
+  @keyframes rotate-center {
+    0% {
+      -webkit-transform: rotate(0);
+              transform: rotate(0);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+              transform: rotate(360deg);
+    }
+  }
+  
+/*endRegion:*/
+
+@media(max-width:1366px){
+    .paylists{
+        max-height: 160px;
+    }
+}

@@ -1,8 +1,9 @@
-import locale
 from datetime import datetime
 
 import pytz
 import requests
+
+from dashboard.utils.utils import format_value
 
 
 class Api:
@@ -19,8 +20,11 @@ class Api:
     # Faz uma requisição a api retornando um json com os dados.
     def __fetch_api(self, url, endpoint) -> list:
         response = requests.get(url)
-        data = response.json()['retorno'][endpoint]
-        return data
+        print(response.json())
+        data = response.json()['retorno']
+        if 'erros' in data:
+            raise Exception(data['erros']['erro']['msg'])
+        return data[endpoint]
 
     # Ordena os dados por data de vencimento
     def __sort_by_due_date(self, endpoint) -> None:
@@ -31,7 +35,6 @@ class Api:
     def __get_pendent_bills(self, url, endpoint):
         data = self.__fetch_api(url, endpoint)
         pendent_bills = list()
-
         for bill in data:
             if bill[self.obj_item_name]['situacao'] == 'aberto' or bill[
                     self.obj_item_name]['situacao'] == 'parcial':
@@ -42,8 +45,9 @@ class Api:
                 bill[self.obj_item_name]['data_formatada'] = self.__format_date(
                     bill)
 
+                bill[self.obj_item_name]['valor_formatado'] = format_value(float(
+                    bill[self.obj_item_name]['valor']))
                 pendent_bills.append(bill)
-
         return pendent_bills
 
     def __format_date(self, bill):
@@ -95,11 +99,6 @@ class Api:
         else:
             return 'contaReceber'
 
-    def __format_value(self, value):
-        locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
-        value = locale.currency(value, grouping=True, symbol=None)
-
-        return value
     # Pega todas as contas referente ao dia atual
 
     def get_bills_today(self):
@@ -126,7 +125,7 @@ class Api:
             if self.__compare_dates(bill) == 0:
                 total_value += float(bill[self.obj_item_name]['valor'])
 
-        return self.__format_value(total_value)
+        return format_value(total_value)
 
     # Pega o valor total referente ao mês
     def get_total_value_rest(self):
@@ -136,7 +135,7 @@ class Api:
                     and self.__compare_months(bill) == 0):
                 total_value += float(bill[self.obj_item_name]['valor'])
 
-        return self.__format_value(total_value)
+        return format_value(total_value)
 
     # Pega o valor total de todas as contas atrasadas
     def get_total_value_late(self):
@@ -145,7 +144,7 @@ class Api:
             if bill[self.obj_item_name]['atrasado'] == 'true':
                 total_value += float(bill[self.obj_item_name]['valor'])
 
-        return self.__format_value(total_value)
+        return format_value(total_value)
 
     def get_late_bills(self):
         late_bills = list()
@@ -163,12 +162,3 @@ class Api:
     @property
     def printData(self):
         print(self.data)
-
-
-BASE_API_URL = "https://bling.com.br/b/Api/v2/"
-PAYMENT_ENDPOINT = "contaspagar"
-RECEIVEMET_ENDPOINT = "contasreceber"
-API_KEY = "9f8434c5983423bbed5130d60e42b3aabd01017f26041e01af4341545646db337fd2a73f"
-payments = Api(base_url=BASE_API_URL,
-               endpoint=PAYMENT_ENDPOINT, apikey=API_KEY)
-payments.printData

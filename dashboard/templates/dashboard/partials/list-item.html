@@ -1,11 +1,23 @@
 <li class="list-item">
     <i class="fa-solid fa-money-bill-transfer"></i>
-    <div>
-        <strong></strong>
-        <span></span>
-    </div>
-    <div>
-        <span></span>
-        <strong></strong>
-    </div>
+    {% if data.contapagar %}
+        <div>
+            <strong>{{data.contapagar.historico}}</strong>
+            <span>{{data.contapagar.fornecedor.nome}}</span>
+        </div>
+        <div>
+            <span>{{data.contapagar.data_formatada}}</span>
+            <strong>R$ {{data.contapagar.valor_formatado}}</strong>
+        </div>
+    {% else %}
+        <div>
+            <strong>{{data.contaReceber.historico}}</strong>
+            <span>{{data.contaReceber.fornecedor.nome}}</span>
+        </div>
+        <div>
+            <span>{{data.contaReceber.data_formatada}}</span>
+            <strong>R$ {{data.contaReceber.valor_formatado}}</strong>
+        </div>
+    {% endif %}
+    
 </li>

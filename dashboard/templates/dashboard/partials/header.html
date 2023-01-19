@@ -1,6 +1,16 @@
 <header>
     <div>
         <span>Lissaro Dashboard</span>
-        <i class="fa-solid fa-gear setting-icon"></i>
+        <div>
+            <span id="reload-text">Atualizado em: {{updated_at}}</span>
+            
+            <button ><a href="{% url 'dashboard:bling_data' %}"><i id="reload-icon" class="fa-solid fa-rotate-right"></i></a></button>
+            <button id="conf-btt"><i class="fa-solid fa-gear"></i></button>
+            <form action="{% url 'dashboard:logout' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit"><i class="fa-solid fa-right-from-bracket"></i></button>
+            </form>
+        </div>
+        
     </div>
 </header>
