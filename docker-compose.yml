@@ -1,0 +1,15 @@
+version: "2"
+services:
+  dashboard:
+    image: dashboard
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sh -c "playwright install chromium &&
+     python manage.py migrate && 
+     python manage.py runserver 0.0.0.0:3000"
+    restart: always
+    volumes:
+      - .:/code
+    ports:
+      - 3000:3000

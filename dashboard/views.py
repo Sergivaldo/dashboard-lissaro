@@ -159,6 +159,7 @@ def get_data(request):
             updated_at=datetime.now(
                 ZoneInfo('America/Bahia')) + timedelta(hours=-3)
         )
+        bling_user.save()
     else:
         bling_user.api_data.payments = json.dumps(payments)
         bling_user.api_data.receivements = json.dumps(receivements)
@@ -166,8 +167,8 @@ def get_data(request):
             bank_accounts)
         bling_user.api_data.updated_at = datetime.now(
             ZoneInfo('America/Bahia')) + timedelta(hours=-3)
+        bling_user.api_data.save()
 
-    bling_user.save()
     messages.success(request, "Dados atualizados")
     return redirect(reverse('dashboard:main'))
 

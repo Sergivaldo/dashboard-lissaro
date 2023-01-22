@@ -2,8 +2,8 @@
     <i class="fa-solid fa-money-bill-transfer"></i>
     {% if data.contapagar %}
         <div>
-            <strong>{{data.contapagar.historico}}</strong>
-            <span>{{data.contapagar.fornecedor.nome}}</span>
+            <strong>{{data.contapagar.fornecedor.nome}}</strong>
+            <span>{{data.contapagar.id}}</span>
         </div>
         <div>
             <span>{{data.contapagar.data_formatada}}</span>
@@ -11,8 +11,8 @@
         </div>
     {% else %}
         <div>
-            <strong>{{data.contaReceber.historico}}</strong>
-            <span>{{data.contaReceber.fornecedor.nome}}</span>
+            <strong>{{data.contaReceber.fornecedor.nome}}</strong>
+            <span>{{data.contaReceber.id}}</span>
         </div>
         <div>
             <span>{{data.contaReceber.data_formatada}}</span>

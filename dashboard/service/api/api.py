@@ -20,7 +20,6 @@ class Api:
     # Faz uma requisição a api retornando um json com os dados.
     def __fetch_api(self, url, endpoint) -> list:
         response = requests.get(url)
-        print(response.json())
         data = response.json()['retorno']
         if 'erros' in data:
             raise Exception(data['erros']['erro']['msg'])
@@ -113,9 +112,9 @@ class Api:
     def get_bills_rest(self):
         bills_rest = list()
         for bill in self.data:
-            if (self.__compare_dates(bill) == 1):
+            if (self.__compare_dates(bill) == 1
+                    and self.__compare_months(bill) == 0):
                 bills_rest.append(bill)
-
         return bills_rest
 
     # Pega o valor total referente ao dia atual
@@ -143,7 +142,7 @@ class Api:
         for bill in self.data:
             if bill[self.obj_item_name]['atrasado'] == 'true':
                 total_value += float(bill[self.obj_item_name]['valor'])
-
+    
         return format_value(total_value)
 
     def get_late_bills(self):
@@ -151,14 +150,10 @@ class Api:
         for bill in self.data:
             if bill[self.obj_item_name]['atrasado'] == 'true':
                 late_bills.append(bill)
-
+        print(late_bills)
         return late_bills
 
     # Recarrega os dados colhidos da api fazendo uma nova requisição
     def refresh(self) -> None:
         self.data = self.__get_pendent_bills(self.url, self.url_endpoint)
         self.__sort_by_due_date(self.url_endpoint)
-
-    @property
-    def printData(self):
-        print(self.data)
