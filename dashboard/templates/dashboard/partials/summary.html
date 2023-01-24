@@ -6,7 +6,7 @@
             <i class="fa-solid fa-building-columns"></i>
             <div class="total-balance">
                 <span class="title">Saldo bancário total</span>
-                {% if total_balance < 0%}
+                {% if total_balance < 0 %}
                     <strong class="value payment">{{total_balance| format}}</strong>
                     {% else %}
                     <strong class="value">{{total_balance| format}}</strong>

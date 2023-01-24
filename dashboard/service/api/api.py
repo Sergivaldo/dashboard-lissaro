@@ -139,7 +139,7 @@ class Api:
             if bill[self.obj_item_name]['atrasado'] == 'true':
                 total_value += float(bill[self.obj_item_name]['valor'])
 
-        return format_value(total_value)
+        return total_value
 
     def get_late_bills(self):
         late_bills = list()

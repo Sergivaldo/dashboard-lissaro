@@ -1,6 +1,5 @@
 from playwright.sync_api import sync_playwright
 
-
 def wait_elements(page, locators, timeout=4000):
     time = 0
     find_result = False
@@ -48,7 +47,7 @@ def get_accounts(username, password):
                     'total_balance': data["totais"]["saldoGeral"],
                     'balances_on_account': data["totais"]["saldosPorConta"]
                 }
-
+            print( data["totais"]["saldoGeral"])
         return obj
     except Exception as e:
         raise e
