@@ -1,7 +1,5 @@
 from playwright.sync_api import sync_playwright
 
-from dashboard.utils.utils import format_value
-
 
 def wait_elements(page, locators, timeout=4000):
     time = 0
@@ -47,7 +45,7 @@ def get_accounts(username, password):
             with page.expect_request('**/caixa.server.php?f=listarCaixa') as request:
                 data = request.value.response().json()
                 obj = {
-                    'total_balance': format_value(data["totais"]["saldoGeral"]),
+                    'total_balance': data["totais"]["saldoGeral"],
                     'balances_on_account': data["totais"]["saldosPorConta"]
                 }
 

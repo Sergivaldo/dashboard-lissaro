@@ -6,10 +6,10 @@
             <i class="fa-solid fa-building-columns"></i>
             <div class="total-balance">
                 <span class="title">Saldo bancário total</span>
-                {% if '-' in total_balance%}
-                    <strong class="value payment">R$ {{total_balance}}</strong>
+                {% if total_balance < 0%}
+                    <strong class="value payment">{{total_balance| format}}</strong>
                     {% else %}
-                    <strong class="value">R$ {{total_balance}}</strong>
+                    <strong class="value">{{total_balance| format}}</strong>
                 {% endif %}
                 
             </div>
@@ -25,9 +25,9 @@
                     <li>
                         <strong>{{account.conta}}</strong>
                         {% if account.valor < 0 %}
-                                <span class="payment">R$ {{account.valor| format}}</span>
+                                <span class="payment">{{account.valor| format}}</span>
                             {% else %}
-                                <span>R$ {{account.valor| format}}</span>
+                                <span>{{account.valor| format}}</span>
                         {% endif %}
                     </li>
                 {% endfor %}       
@@ -38,30 +38,30 @@
     <div class="container-resume-trans">
         <div>
             <span>A receber hoje:</span>
-            <strong class="receivement">R$ {{receivements_value_today}}</strong>
+            <strong class="receivement">{{receivements_value_today| format}}</strong>
         </div>
         <div>
             <span>Restante do mês:</span>
-            <strong>R$ {{receivements_value_rest}}</strong>
+            <strong>{{receivements_value_rest| format}}</strong>
         </div>
         <div>
             <span>Atrasados:</span>
-            <strong>R$ {{receivements_value_late}}</strong>
+            <strong>{{receivements_value_late| format}}</strong>
         </div>
     </div>
 
     <div class="container-resume-trans">
         <div>
             <span>A pagar hoje:</span>
-            <strong class="payment">R$ {{payment_value_today}}</strong>
+            <strong class="payment">{{payment_value_today| format}}</strong>
         </div>
         <div>
             <span>Restante do mês:</span>
-            <strong>R$ {{payment_value_rest}}</strong>
+            <strong>{{payment_value_rest| format}}</strong>
         </div>
         <div>
             <span>Atrasados:</span>
-            <strong>R$ {{payment_value_late}}</strong>
+            <strong>{{payment_value_late| format}}</strong>
         </div>
     </div>
     <div class="container-daily-flow">

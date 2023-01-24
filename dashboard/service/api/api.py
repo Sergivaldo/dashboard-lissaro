@@ -3,8 +3,6 @@ from datetime import datetime
 import pytz
 import requests
 
-from dashboard.utils.utils import format_value
-
 
 class Api:
 
@@ -44,8 +42,6 @@ class Api:
                 bill[self.obj_item_name]['data_formatada'] = self.__format_date(
                     bill)
 
-                bill[self.obj_item_name]['valor_formatado'] = format_value(float(
-                    bill[self.obj_item_name]['valor']))
                 pendent_bills.append(bill)
         return pendent_bills
 
@@ -124,7 +120,7 @@ class Api:
             if self.__compare_dates(bill) == 0:
                 total_value += float(bill[self.obj_item_name]['valor'])
 
-        return format_value(total_value)
+        return total_value
 
     # Pega o valor total referente ao mês
     def get_total_value_rest(self):
@@ -134,7 +130,7 @@ class Api:
                     and self.__compare_months(bill) == 0):
                 total_value += float(bill[self.obj_item_name]['valor'])
 
-        return format_value(total_value)
+        return total_value
 
     # Pega o valor total de todas as contas atrasadas
     def get_total_value_late(self):
@@ -142,7 +138,7 @@ class Api:
         for bill in self.data:
             if bill[self.obj_item_name]['atrasado'] == 'true':
                 total_value += float(bill[self.obj_item_name]['valor'])
-    
+
         return format_value(total_value)
 
     def get_late_bills(self):

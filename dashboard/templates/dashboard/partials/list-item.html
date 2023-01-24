@@ -1,3 +1,4 @@
+{% load filters %}
 <li class="list-item">
     <i class="fa-solid fa-money-bill-transfer"></i>
     {% if data.contapagar %}
@@ -7,7 +8,7 @@
         </div>
         <div>
             <span>{{data.contapagar.data_formatada}}</span>
-            <strong>R$ {{data.contapagar.valor_formatado}}</strong>
+            <strong>{{data.contapagar.valor| format}}</strong>
         </div>
     {% else %}
         <div>
@@ -16,7 +17,7 @@
         </div>
         <div>
             <span>{{data.contaReceber.data_formatada}}</span>
-            <strong>R$ {{data.contaReceber.valor_formatado}}</strong>
+            <strong>{{data.contaReceber.valor| format}}</strong>
         </div>
     {% endif %}
     
